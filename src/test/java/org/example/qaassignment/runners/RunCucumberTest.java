@@ -8,7 +8,7 @@ import org.junit.platform.suite.api.*;
 @IncludeEngines("cucumber")
 @SelectDirectories("src/test/resources/features")
 @ConfigurationParameters({
-        @ConfigurationParameter(key= Constants.GLUE_PROPERTY_NAME, value="steps, shared"),
+        @ConfigurationParameter(key= Constants.GLUE_PROPERTY_NAME, value="org.example.qaassignment"),
         @ConfigurationParameter(key= "cucumber.snippet-type", value ="camelcase")
 })
 
