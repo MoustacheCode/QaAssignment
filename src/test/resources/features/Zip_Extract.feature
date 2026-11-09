@@ -44,4 +44,10 @@ Feature: Zip file processing
   Scenario: Reject a ZIP file that does not exist
     Given the specified ZIP file does not exist
     When the ZIP file is processed
+    Then the response status code should be 404
+
+  @negative
+  Scenario: Reject an empty ZIP file
+    Given the ZIP file contains no files
+    When the ZIP file is processed
     Then the response status code should be 400
