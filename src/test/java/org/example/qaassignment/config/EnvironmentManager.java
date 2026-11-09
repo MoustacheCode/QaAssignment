@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
+
 @Getter
 @Component
 public class EnvironmentManager {
@@ -34,19 +36,19 @@ public class EnvironmentManager {
         return processPath;
     }
 
-    public String getInputFolder() {
-        return inputFolder;
+    public Path getInputFolder() {
+        return Path.of(inputFolder);
     }
 
-    public String getProcessFolder() {
-        return processFolder;
+    public Path getProcessFolder() {
+        return Path.of(processFolder);
     }
 
-    public String getEncodedFolder() {
-        return encodedFolder;
+    public Path getEncodedFolder() {
+        return Path.of(encodedFolder);
     }
 
-    public String getErrorFolder() {
-        return errorFolder;
+    public Path getErrorFolder() {
+        return Path.of(errorFolder);
     }
 }
