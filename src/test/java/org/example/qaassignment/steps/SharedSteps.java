@@ -4,6 +4,7 @@ import io.cucumber.java.en.Then;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -41,29 +42,6 @@ public class SharedSteps {
         assertEquals(expectedStatus, actualStatus);
     }
 
-    @Then("the response message is {string}")
-    public void theResponseMessageIs(String expectedMessage) {
-        // Read the message field from the API response
-        String actualMessage = context.response()
-                .jsonPath()
-                .getString("message");
-
-        // Check that the API returned the expected message
-        assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Then("the response unsupported file name is {string}")
-    public void theResponseUnsupportedFileNameIs(
-            String expectedFileName
-    ) {
-            // Read the unsupported filename from the API response
-        String actualFileName = context.response()
-                .jsonPath()
-                .getString("unsupportedFileName");
-
-        // Check that the API identified the expected unsupported file
-        assertEquals(expectedFileName, actualFileName);
-    }
 
     @Then("{string} exists in the error folder")
     public void existsInTheErrorFolder(String zipFileName) {
@@ -99,23 +77,134 @@ public class SharedSteps {
                 "ZIP should not exist in the error folder: " + zipPath);
     }
 
-    @Then("a processed ZIP has been created")
-    public void aProcessedZIPHasBeenCreated() {
-        throw new io.cucumber.java.PendingException();
+    @Then("the response source file is {string}")
+    public void theResponseSourceFileIs(String expectedSourceFile) {
+
+        // Read the original ZIP filename returned in the API response.
+        String actualSourceFile = context.response()
+                .jsonPath()
+                .getString("sourceFile");
+
+        // Check that the API reports the expected source ZIP.
+        assertEquals(expectedSourceFile, actualSourceFile);
+    }
+
+    @Then("the response processed file is {string}")
+    public void theResponseProcessedFileIs(String expectedProcessedFile) {
+
+        // Read the processed ZIP filename returned in the API response.
+        String actualProcessedFile = context.response()
+                .jsonPath()
+                .getString("processedFile");
+
+        // Check that the API returned the expected processed filename.
+        assertEquals(expectedProcessedFile, actualProcessedFile);
+    }
+
+    @Then("the response encoded file is {string}")
+    public void theResponseEncodedFileIs(String expectedEncodedFile) {
+
+        // Read the generated Base64 filename returned in the API response.
+        String actualEncodedFile = context.response()
+                .jsonPath()
+                .getString("encodedFile");
+
+        // Check that the API returned the expected encoded filename.
+        assertEquals(expectedEncodedFile, actualEncodedFile);
+    }
+
+    @Then("{string} exists in the processed folder")
+    public void existsInTheProcessedFolder(String zipFileName) {
+
+        // Build the expected location of the original ZIP after processing.
+        Path zipPath = environmentManager.processFolder()
+                .resolve(zipFileName);
+
+        // Check that the application moved the original ZIP
+        // from input into the processed folder.
+        assertTrue(
+                Files.exists(zipPath),
+                "Expected original ZIP to exist in processed folder: " + zipPath
+        );
+    }
+
+    @Then("the response processed file exists in the processed folder")
+    public void theResponseProcessedFileExistsInTheProcessedFolder() {
+
+        // Get the processed filename reported by the API.
+        String processedFileName = context.response()
+                .jsonPath()
+                .getString("processedFile");
+
+        // Build the physical location where that file should exist.
+        Path processedFilePath = environmentManager.processFolder()
+                .resolve(processedFileName);
+
+        // Confirm that the file reported by the API really exists.
+        assertTrue(
+                Files.exists(processedFilePath),
+                "Expected processed ZIP to exist: " + processedFilePath
+        );
+    }
+
+    @Then("the response encoded file exists in the encoded folder")
+    public void theResponseEncodedFileExistsInTheEncodedFolder() {
+
+        // Get the encoded filename reported by the API.
+        String encodedFileName = context.response()
+                .jsonPath()
+                .getString("encodedFile");
+
+        // Build the physical location of the expected Base64 output.
+        Path encodedFilePath = environmentManager.encodedFolder()
+                .resolve(encodedFileName);
+
+        // Confirm that the encoded output reported by the API actually exists.
+        assertTrue(
+                Files.exists(encodedFilePath),
+                "Expected encoded output to exist: " + encodedFilePath
+        );
+    }
+
+    @Then("{string} remains in the input folder")
+    public void remainsInTheInputFolder(String zipFileName) {
+
+        // Build the expected path of the ZIP in the input folder.
+        Path zipPath = environmentManager.inputFolder()
+                .resolve(zipFileName);
+
+        // EmptyZipException is currently thrown before the ZIP is moved,
+        // so verify that the original ZIP remains in input.
+        assertTrue(
+                Files.exists(zipPath),
+                "Expected ZIP to remain in input folder: " + zipPath
+        );
     }
 
     @Then("no processed ZIP has been created")
-    public void noProcessedZIPHasBeenCreated() {
-        throw new io.cucumber.java.PendingException();
+    public void noProcessedZIPHasBeenCreated() throws IOException {
+
+        // Rejected input should not produce anything in the processed folder.
+        try (var files = Files.list(environmentManager.processFolder())) {
+
+            assertTrue(
+                    files.findAny().isEmpty(),
+                    "Expected no processed ZIP to be created"
+            );
+        }
     }
 
-    @Then("Base64 output has been created")
-    public void base64OutputHasBeenCreated() {
-        throw new io.cucumber.java.PendingException();
-    }
 
     @Then("no Base64 output has been created")
-    public void noBase64OutputHasBeenCreated() {
-        throw new io.cucumber.java.PendingException();
+    public void noBase64OutputHasBeenCreated() throws IOException {
+
+        // Rejected input should not generate anything in the encoded folder.
+        try (var files = Files.list(environmentManager.encodedFolder())) {
+
+            assertTrue(
+                    files.findAny().isEmpty(),
+                    "Expected no encoded/Base64 output to be created"
+            );
+        }
     }
 }

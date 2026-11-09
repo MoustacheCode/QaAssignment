@@ -2,6 +2,7 @@ package org.example.qaassignment.steps;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.example.qaassignment.clients.ProcessingClient;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.example.qaassignment.utils.FileUtils.emptyFolder;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ZipExtractSteps {
 
@@ -99,5 +101,19 @@ public class ZipExtractSteps {
 
         // Save the response so the Then steps can make assertions against it.
         context.setResponse(response);
+    }
+
+    @Then("{string} remains in the input folder")
+    public void remainsInTheInputFolder(String zipFileName) {
+
+        // Build the expected location of the ZIP in the input folder.
+        Path zipPath = environmentManager.inputFolder()
+                .resolve(zipFileName);
+
+        // An empty ZIP is not moved by the current service implementation.
+        assertTrue(
+                Files.exists(zipPath),
+                "Expected ZIP to remain in input folder: " + zipPath
+        );
     }
 }
