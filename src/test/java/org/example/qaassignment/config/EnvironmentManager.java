@@ -8,6 +8,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvironmentManager {
 
-    @Value("${api.base.url}")
-    private String apiBaseUrl;
+    @Value("${base.url}")
+    private String baseUrl;
+
+    @Value("${test.input.path}")
+    private String inputPath;
+
+    @Value("${test.output.path}")
+    private String outputPath;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public String getInputPath() {
+        return inputPath;
+    }
+
+    public String getOutputPath() {
+        return outputPath;
+    }
 }
