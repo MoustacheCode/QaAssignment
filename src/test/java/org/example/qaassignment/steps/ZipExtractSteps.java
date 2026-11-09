@@ -3,6 +3,8 @@ package org.example.qaassignment.steps;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+import org.example.qaassignment.clients.ProcessingClient;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
 import org.example.qaassignment.support.TestFileFactory;
@@ -20,10 +22,12 @@ public class ZipExtractSteps {
 
     private final EnvironmentManager environmentManager;
     private final ScenarioContext context;
+    private final ProcessingClient processingClient;
 
-    public ZipExtractSteps(EnvironmentManager environmentManager, ScenarioContext context) {
+    public ZipExtractSteps(EnvironmentManager environmentManager, ScenarioContext context, ProcessingClient processingClient) {
         this.environmentManager = environmentManager;
         this.context = context;
+        this.processingClient = processingClient;
     }
 
     @Given("the ZIP processing folders exist")
@@ -88,6 +92,11 @@ public class ZipExtractSteps {
 
     @When("the ZIP file {string} is submitted for processing")
     public void theZIPFileIsSubmittedForProcessing(String zipFileName) {
-        throw new io.cucumber.java.PendingException();
+
+        // Send the ZIP filename to the processing API and receive response
+        Response response = processingClient.Process(zipFileName);
+
+        // Save the response so the then steps can make their assertions against it
+        context.setResponse(response);
     }
 }
