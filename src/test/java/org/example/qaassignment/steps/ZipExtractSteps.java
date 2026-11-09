@@ -5,9 +5,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
+import org.example.qaassignment.support.TestFileFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 
 import static org.example.qaassignment.utils.FileUtils.emptyFolder;
 
@@ -43,8 +47,27 @@ public class ZipExtractSteps {
     public void aZIPFileNamedContains(
             String zipFileName,
             DataTable dataTable
-    ) {
-        throw new io.cucumber.java.PendingException();
+    ) throws IOException {
+        // Take each row from the Cucumber DataTable
+        // and convert it into a Java Map containing fileName and type
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        // Convert each row into an ArchiveEntry that the
+        // TestFileFactory understands.
+        List<TestFileFactory.ArchiveEntry> entries = rows.stream().map(row -> new TestFileFactory.ArchiveEntry(row.get("fileName"),
+                row.get("type"))).toList();
+
+        // Create the actual ZIP file inside the configured input folder
+        // The ZIP name comes from the scenario and the entries come
+        // from the DataTable above
+        Path zipPath = TestFileFactory.createZip(
+                environmentManager.inputFolder(),
+                zipFileName,
+                entries
+        );
+
+        // Remember the created ZIP for the rest of this scenario
+        context.setZipFile(zipPath);
     }
 
     @Given("an empty ZIP file named {string} is created")
