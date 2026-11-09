@@ -3,8 +3,11 @@ package org.example.qaassignment.support;
 import io.cucumber.java.Before;
 import io.restassured.response.Response;
 
+import java.nio.file.Path;
+
 public class ScenarioContext {
     private Response response;
+    private Path zipFile;
 
     public Response response(){
         if (response == null){
@@ -17,10 +20,21 @@ public class ScenarioContext {
         this.response = response;
     }
 
+    public Path getZipFile() {
+        return zipFile;
+    }
+
+    public void setZipFile(Path zipFile) {
+        this.zipFile = zipFile;
+    }
+
+
+
 
     // Reset after each scenario
     @Before
     public void reset(){
         response = null;
+        zipFile = null;
     }
 }
