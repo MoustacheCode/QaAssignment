@@ -10,7 +10,7 @@ Feature: ZIP file processing
     Given a ZIP file named "pdfFile.zip" contains:
       | fileName        | type |
       | testFile.pdf    | PDF  |
-    When the ZIP file "pdfFile.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
     And "pdfFile.zip" no longer exists in the input folder
@@ -24,7 +24,7 @@ Feature: ZIP file processing
     Given a ZIP file named "jpegFile.zip" contains:
       | fileName        | type |
       | testPicture.jpg | JPEG |
-    When the ZIP file "jpegFile.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
     And "jpegFile.zip" no longer exists in the input folder
@@ -40,7 +40,7 @@ Feature: ZIP file processing
       | testFile.pdf     | PDF  |
       | testFile2.pdf    | PDF  |
       | testFile3.pdf    | PDF  |
-    When the ZIP file "multiplePdfFiles.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
     And "multiplePdfFiles.zip" no longer exists in the input folder
@@ -56,7 +56,7 @@ Feature: ZIP file processing
       | testPicture.jpg  | JPEG |
       | testPicture2.jpg | JPEG |
       | testPicture3.jpg | JPEG |
-    When the ZIP file "multipleJpegFiles.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
     And "multipleJpegFiles.zip" no longer exists in the input folder
@@ -73,7 +73,7 @@ Feature: ZIP file processing
       | testPicture.jpg     | JPEG |
       | testDocument.pdf    | PDF  |
       | testImage.jpeg      | JPEG |
-    When the ZIP file "supportedFiles.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
     And "supportedFiles.zip" no longer exists in the input folder
@@ -88,7 +88,7 @@ Feature: ZIP file processing
       | fileName            | type |
       | testFile.pdf        | PDF  |
       | testNotes.txt       | TEXT |
-    When the ZIP file "textFile.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 400
     And the response status is "FAILED"
     And the response message is "Unsupported file type found"
@@ -104,7 +104,7 @@ Feature: ZIP file processing
     Given a ZIP file named "pngFile.zip" contains:
       | fileName        | type |
       | testPicture.png | PNG  |
-    When the ZIP file "pngFile.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 400
     And the response status is "FAILED"
     And the response message is "Unsupported file type found"
@@ -122,7 +122,7 @@ Feature: ZIP file processing
       | testFile.pdf        | PDF  |
       | testPicture.jpg     | JPEG |
       | testNotes.txt       | TEXT |
-    When the ZIP file "mixedFiles.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 400
     And the response status is "FAILED"
     And the response message is "Unsupported file type found"
@@ -136,7 +136,7 @@ Feature: ZIP file processing
   @negative @api
   Scenario: Reject an empty ZIP file
     Given an empty ZIP file named "emptyFile.zip" is created
-    When the ZIP file "emptyFile.zip" is submitted for processing
+    When ZIP file processing is requested
     Then the API response code is 400
     And the response status is "FAILED"
     And "emptyFile.zip" exists in the error folder

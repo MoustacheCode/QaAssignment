@@ -90,13 +90,14 @@ public class ZipExtractSteps {
         context.setZipFile(zipPath);
     }
 
-    @When("the ZIP file {string} is submitted for processing")
-    public void theZIPFileIsSubmittedForProcessing(String zipFileName) {
+    @When("ZIP file processing is requested")
+    public void zipFileProcessingIsRequested() {
 
-        // Send the ZIP filename to the processing API and receive response
-        Response response = processingClient.Process(zipFileName);
+        // Ask the API to find and process the ZIP file
+        // that has already been created in the input folder.
+        Response response = processingClient.process();
 
-        // Save the response so the then steps can make their assertions against it
+        // Save the response so the Then steps can make assertions against it.
         context.setResponse(response);
     }
 }

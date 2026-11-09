@@ -4,36 +4,39 @@ import io.restassured.response.Response;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 
-// Makes this class available for Spring to inject into our Step Definition class.
+// Tell Spring to create and manage this API client.
 @Component
 public class ProcessingClient {
-    // Gives this client access to environment settings such as
-    // the API base URL and processing endpoint
+
+    // Gives the client access to API configuration,
+    // I.e base URL and processing endpoint.
     private final EnvironmentManager environmentManager;
 
-    // Spring provies the EnvironmentManager when it creates this client
+    // Spring injects the EnvironmentManager when it creates ProcessingClient.
     public ProcessingClient(EnvironmentManager environmentManager) {
         this.environmentManager = environmentManager;
     }
 
-    // Sends a request to the API asking it to process the specified ZIP file
-    // Response is returned so the Cucumber steps can check what the API sent back.
-    public Response Process(String zipFileName) {
+    // Call the API endpoint that tells the application
+    // to find and process the ZIP in its input folder.
+    public Response process() {
 
-        // Build the JSON request body expected by ProcessingRequest
-        Map<String, Object> requestBody = Map.of(
-                "fileName", zipFileName
-        );
+        // Build and send the API request using REST Assured.
+        return given()
 
-        // REST Assured builds and sends the HTTP request
-        return given().baseUri(environmentManager.getBaseUrl()) // Set the main address of application
-                .contentType("application/json")  // Tell the API that the request body contains JSON
-                .body(requestBody) // Add the request data to the HTTP request, REST Assured converts the Map into JSON
-                .when() // Means it is now ready to Send
-                .post(environmentManager.getProcessPath()); // Send POST request to the processing endpoint
+                // Set the main application address.
+                // For example: http://localhost:8080
+                .baseUri(environmentManager.getBaseUrl())
+
+                // Request configuration is complete.
+                // We are now ready to send the HTTP request.
+                .when()
+
+                // Send a GET request to the configured processing endpoint.
+                // Combined example:
+                // GET http://localhost:8080/api/files/find
+                .get(environmentManager.getProcessPath());
     }
 }
