@@ -3,11 +3,14 @@ package org.example.qaassignment.steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 public class SharedSteps {
 
     @Given("the ZIP processing folders exist")
-    public void theZIPProcessingFoldersExist() {
-        throw new io.cucumber.java.PendingException();
+    public void theZIPProcessingFoldersExist() throws IOException {
+        Files.createDirectories(getInputFolder());
     }
 
     @Given("the ZIP processing folders are empty")

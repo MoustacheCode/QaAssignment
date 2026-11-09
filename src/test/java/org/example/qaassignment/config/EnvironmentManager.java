@@ -11,19 +11,19 @@ public class EnvironmentManager {
     @Value("${base.url}")
     private String baseUrl;
 
-    @Value("${api.process.path")
+    @Value("${api.process.path}")
     private String processPath;
 
     @Value("${folders.input}")
     private String inputFolder;
 
-    @Value("${folders.process")
+    @Value("${folders.process}")
     private String processFolder;
 
-    @Value("${folder.encoded")
+    @Value("${folder.encoded}")
     private String encodedFolder;
 
-    @Value("${folders.error")
+    @Value("${folders.error}")
     private String errorFolder;
 
     public String getBaseUrl() {

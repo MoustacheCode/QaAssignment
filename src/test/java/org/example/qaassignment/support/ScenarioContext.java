@@ -1,10 +1,14 @@
 package org.example.qaassignment.support;
 
 import io.cucumber.java.Before;
+import io.cucumber.spring.ScenarioScope;
 import io.restassured.response.Response;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
+@Component
+@ScenarioScope
 public class ScenarioContext {
     private Response response;
     private Path zipFile;
