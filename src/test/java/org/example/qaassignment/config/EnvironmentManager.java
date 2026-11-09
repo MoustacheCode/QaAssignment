@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
-@Getter
+
 @Component
 public class EnvironmentManager {
 
@@ -22,7 +22,7 @@ public class EnvironmentManager {
     @Value("${folders.process}")
     private String processFolder;
 
-    @Value("${folder.encoded}")
+    @Value("${folders.encoded}")
     private String encodedFolder;
 
     @Value("${folders.error}")
@@ -36,19 +36,19 @@ public class EnvironmentManager {
         return processPath;
     }
 
-    public Path getInputFolder() {
+    public Path inputFolder() {
         return Path.of(inputFolder);
     }
 
-    public Path getProcessFolder() {
+    public Path processFolder() {
         return Path.of(processFolder);
     }
 
-    public Path getEncodedFolder() {
+    public Path encodedFolder() {
         return Path.of(encodedFolder);
     }
 
-    public Path getErrorFolder() {
+    public Path errorFolder() {
         return Path.of(errorFolder);
     }
 }

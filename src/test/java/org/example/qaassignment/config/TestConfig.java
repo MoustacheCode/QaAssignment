@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @CucumberContextConfiguration
 @SpringBootTest(classes = QaAssignmentApplication.class)
-@ComponentScan(basePackages = { "org.example.qaassignment"})
 public class TestConfig {
 
 }

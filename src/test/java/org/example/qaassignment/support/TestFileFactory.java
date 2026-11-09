@@ -1,4 +1,4 @@
-package com.example.qaassignment.support;
+package org.example.qaassignment.support;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

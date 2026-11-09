@@ -6,6 +6,11 @@ import io.cucumber.java.en.When;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
+import static org.example.qaassignment.utils.FileUtils.emptyFolder;
+
 public class ZipExtractSteps {
 
     private final EnvironmentManager environmentManager;
@@ -14,6 +19,23 @@ public class ZipExtractSteps {
     public ZipExtractSteps(EnvironmentManager environmentManager, ScenarioContext context) {
         this.environmentManager = environmentManager;
         this.context = context;
+    }
+
+    @Given("the ZIP processing folders exist")
+    public void theZIPProcessingFoldersExist() throws IOException {
+        Files.createDirectories(environmentManager.inputFolder());
+        Files.createDirectories(environmentManager.processFolder());
+        Files.createDirectories(environmentManager.encodedFolder());
+        Files.createDirectories(environmentManager.errorFolder());
+    }
+
+
+    @Given("the ZIP processing folders are empty")
+    public void theZIPProcessingFoldersAreEmpty() throws IOException {
+        emptyFolder(environmentManager.inputFolder());
+        emptyFolder(environmentManager.processFolder());
+        emptyFolder(environmentManager.encodedFolder());
+        emptyFolder(environmentManager.errorFolder());
     }
 
 

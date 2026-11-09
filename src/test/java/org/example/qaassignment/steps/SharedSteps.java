@@ -1,14 +1,8 @@
 package org.example.qaassignment.steps;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
-
-import java.io.IOException;
-import java.nio.file.Files;
-
-import static org.example.qaassignment.utils.FileUtils.emptyFolder;
 
 public class SharedSteps {
 
@@ -20,21 +14,6 @@ public class SharedSteps {
         this.context = context;
     }
 
-    @Given("the ZIP processing folders exist")
-    public void theZIPProcessingFoldersExist() throws IOException {
-        Files.createDirectories(environmentManager.getInputFolder());
-        Files.createDirectories(environmentManager.getProcessFolder());
-        Files.createDirectories(environmentManager.getEncodedFolder());
-        Files.createDirectories(environmentManager.getErrorFolder());
-    }
-
-    @Given("the ZIP processing folders are empty")
-    public void theZIPProcessingFoldersAreEmpty() throws IOException {
-        emptyFolder(environmentManager.getInputFolder());
-        emptyFolder(environmentManager.getProcessFolder());
-        emptyFolder(environmentManager.getEncodedFolder());
-        emptyFolder(environmentManager.getErrorFolder());
-    }
 
     @Then("the API response code is {int}")
     public void theAPIResponseCodeIs(Integer expectedStatusCode) {
