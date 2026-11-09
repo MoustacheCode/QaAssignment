@@ -17,6 +17,8 @@ public class ScenarioContext {
         this.response = response;
     }
 
+
+    // Reset after each scenario
     @Before
     public void reset(){
         response = null;
