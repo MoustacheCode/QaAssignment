@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import org.example.qaassignment.config.EnvironmentManager;
 import org.example.qaassignment.support.ScenarioContext;
 import org.example.qaassignment.support.TestFileFactory;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,6 +28,7 @@ public class ZipExtractSteps {
 
     @Given("the ZIP processing folders exist")
     public void theZIPProcessingFoldersExist() throws IOException {
+        // Make sure all folders required for ZIP processing exist before the scenario starts
         Files.createDirectories(environmentManager.inputFolder());
         Files.createDirectories(environmentManager.processFolder());
         Files.createDirectories(environmentManager.encodedFolder());
@@ -36,6 +38,7 @@ public class ZipExtractSteps {
 
     @Given("the ZIP processing folders are empty")
     public void theZIPProcessingFoldersAreEmpty() throws IOException {
+        // Remove files left by previous scenarios so each test starts from a clean ZIP
         emptyFolder(environmentManager.inputFolder());
         emptyFolder(environmentManager.processFolder());
         emptyFolder(environmentManager.encodedFolder());
@@ -71,8 +74,16 @@ public class ZipExtractSteps {
     }
 
     @Given("an empty ZIP file named {string} is created")
-    public void anEmptyZIPFileNamedIsCreated(String zipFileName) {
-        throw new io.cucumber.java.PendingException();
+    public void anEmptyZIPFileNamedIsCreated(String zipFileName) throws IOException {
+
+        // Create an empty ZIP insider the configured input folder
+        Path zipPath = TestFileFactory.createEmptyZip(
+                environmentManager.inputFolder(),
+                zipFileName
+        );
+
+        // Remember the ZIP path so the 'When' step can process the same file
+        context.setZipFile(zipPath);
     }
 
     @When("the ZIP file {string} is submitted for processing")
