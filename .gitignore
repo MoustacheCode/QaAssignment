@@ -34,3 +34,5 @@ build/
 .env
 dotenv
 /logs
+
+src/test/resources/application-local.properties

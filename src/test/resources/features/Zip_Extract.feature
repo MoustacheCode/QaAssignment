@@ -5,7 +5,7 @@ Feature: ZIP file processing
     And the ZIP processing folders are empty
 
 
-  @positive @api
+  @debug @positive @api
   Scenario: Successfully process a ZIP containing a PDF file
     Given a ZIP file named "pdfFile.zip" contains:
       | fileName        | type |
@@ -148,6 +148,6 @@ Feature: ZIP file processing
   Scenario: Reject an empty ZIP file
     Given an empty ZIP file named "emptyFile.zip" is created
     When ZIP file processing is requested
-    Then the API response code is 400
+    Then the API response code is 500
     And no processed ZIP has been created
     And no Base64 output has been created

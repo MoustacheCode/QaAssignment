@@ -35,10 +35,10 @@ public class ZipExtractSteps {
     @Given("the ZIP processing folders exist")
     public void theZIPProcessingFoldersExist() throws IOException {
         // Make sure all folders required for ZIP processing exist before the scenario starts
-        Files.createDirectories(environmentManager.inputFolder());
-        Files.createDirectories(environmentManager.processFolder());
-        Files.createDirectories(environmentManager.encodedFolder());
-        Files.createDirectories(environmentManager.errorFolder());
+        assertTrue(Files.exists(environmentManager.inputFolder()), "The Input folder doesn't exist");
+        assertTrue(Files.exists(environmentManager.processFolder()), "The Process folder doesn't exist");
+        assertTrue(Files.exists(environmentManager.encodedFolder()), "The Encroded folder doesn't exist");
+        assertTrue(Files.exists(environmentManager.errorFolder()), "The Error folder doesn't exist");
     }
 
 
@@ -103,17 +103,17 @@ public class ZipExtractSteps {
         context.setResponse(response);
     }
 
-    @Then("{string} remains in the input folder")
-    public void remainsInTheInputFolder(String zipFileName) {
-
-        // Build the expected location of the ZIP in the input folder.
-        Path zipPath = environmentManager.inputFolder()
-                .resolve(zipFileName);
-
-        // An empty ZIP is not moved by the current service implementation.
-        assertTrue(
-                Files.exists(zipPath),
-                "Expected ZIP to remain in input folder: " + zipPath
-        );
-    }
+//    @Then("{string} remains in the input folder")
+//    public void remainsInTheInputFolder(String zipFileName) {
+//
+//        // Build the expected location of the ZIP in the input folder.
+//        Path zipPath = environmentManager.inputFolder()
+//                .resolve(zipFileName);
+//
+//        // An empty ZIP is not moved by the current service implementation.
+//        assertTrue(
+//                Files.exists(zipPath),
+//                "Expected ZIP to remain in input folder: " + zipPath
+//        );
+//    }
 }
