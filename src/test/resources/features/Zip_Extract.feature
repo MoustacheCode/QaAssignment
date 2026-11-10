@@ -5,7 +5,7 @@ Feature: ZIP file processing
     And the ZIP processing folders are empty
 
 
-  @debug @positive @api
+  @positive @api
   Scenario: Successfully process a ZIP containing a PDF file
     Given a ZIP file named "pdfFile.zip" contains:
       | fileName        | type |
@@ -48,7 +48,7 @@ Feature: ZIP file processing
     When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
-    And the response source file is "multiplePdfFiles.zip
+    And the response source file is "multiplePdfFiles.zip"
     And the response processed file is "multiplePdfFiles_processed.zip"
     And the response encoded file is "multiplePdfFiles_processed.zip.txt"
     And "multiplePdfFiles.zip" no longer exists in the input folder
