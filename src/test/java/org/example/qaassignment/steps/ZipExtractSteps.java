@@ -1,6 +1,7 @@
 package org.example.qaassignment.steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.example.qaassignment.utils.FileUtils.emptyFolder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ZipExtractSteps {
@@ -101,6 +103,47 @@ public class ZipExtractSteps {
 
         // Save the response so the Then steps can make assertions against it.
         context.setResponse(response);
+    }
+
+    @Then("the processing status should be {string}")
+    public void theProcessingStatusShouldBe(String expectedStatus) {
+        String actualStatus = context.response()
+                .jsonPath()
+                .getString("[0].status");
+
+        assertEquals(expectedStatus, actualStatus);
+    }
+
+    @Given("an unsafe ZIP file named {string} exists in the input folder")
+    public void anUnsafeZIPFileExistsInTheInputFolder(String zipFileName) throws IOException {
+        Path zipPath = TestFileFactory.createUnsafeZip(
+                environmentManager.inputFolder(),
+                zipFileName
+        );
+
+        context.setZipFile(zipPath);
+    }
+
+    @And("the message should be {string}")
+    public void theMessageShouldBe(String expectedMessage) {
+
+        String actualMessage = context.response()
+                .jsonPath()
+                .getString("[0].message");
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Given("an invalid ZIP file named {string} exists in the input folder")
+    public void anInvalidZIPFileNamedExistsInTheInputFolder(String zipFileName) throws IOException {
+        Path zipPath = TestFileFactory.createInvalidZip(
+                environmentManager.inputFolder(),
+                zipFileName
+        );
+
+        context.setZipFile(zipPath);
+
+
     }
 
 //    @Then("{string} remains in the input folder")
