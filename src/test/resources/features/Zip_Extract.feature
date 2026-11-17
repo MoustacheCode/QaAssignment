@@ -112,6 +112,7 @@ Feature: ZIP file processing
     And "textFile.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
+    And the message should be "Unsupported file type found"
 
 
   @negative @api
@@ -126,6 +127,7 @@ Feature: ZIP file processing
     And "pngFile.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
+    And the message should be "Unsupported file type found"
 
 
   @negative @api
@@ -142,6 +144,7 @@ Feature: ZIP file processing
     And "mixedFiles.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
+    And the message should be "Unsupported file type found"
 
 
   @negative @api
@@ -151,6 +154,7 @@ Feature: ZIP file processing
     Then the API response code is 400
     And no processed ZIP has been created
     And no Base64 output has been created
+    And the message should be "ZIP file is empty"
 
   @negative @api
   Scenario: Reject an invalid ZIP file
