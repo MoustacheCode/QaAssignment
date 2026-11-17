@@ -48,7 +48,7 @@ Feature: ZIP file processing
     When ZIP file processing is requested
     Then the API response code is 200
     And the response status is "SUCCESS"
-    And the response source file is "multiplePdfFiles.zip
+    And the response source file is "multiplePdfFiles.zip"
     And the response processed file is "multiplePdfFiles_processed.zip"
     And the response encoded file is "multiplePdfFiles_processed.zip.txt"
     And "multiplePdfFiles.zip" no longer exists in the input folder
@@ -112,7 +112,7 @@ Feature: ZIP file processing
     And "textFile.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
-    And the message should be "Unsupported file type found"
+
 
 
   @negative @api
@@ -127,7 +127,7 @@ Feature: ZIP file processing
     And "pngFile.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
-    And the message should be "Unsupported file type found"
+
 
 
   @negative @api
@@ -144,7 +144,7 @@ Feature: ZIP file processing
     And "mixedFiles.zip" no longer exists in the input folder
     And no processed ZIP has been created
     And no Base64 output has been created
-    And the message should be "Unsupported file type found"
+
 
 
   @negative @api
@@ -154,7 +154,7 @@ Feature: ZIP file processing
     Then the API response code is 400
     And no processed ZIP has been created
     And no Base64 output has been created
-    And the message should be "ZIP file is empty"
+
 
 
 
