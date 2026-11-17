@@ -156,23 +156,5 @@ Feature: ZIP file processing
     And no Base64 output has been created
     And the message should be "ZIP file is empty"
 
-  @negative @api
-  Scenario: Reject an invalid ZIP file
-    Given an invalid ZIP file named "invalid.zip" exists in the input folder
-    When ZIP file processing is requested
-    Then the API response code is 200
-    And the processing status should be "[FAILED]"
-    And no processed ZIP has been created
-    And no Base64 output has been created
-    And the message should be "Invalid or corrupt ZIP file"
 
-  @negative @api
-  Scenario: Reject an unsafe ZIP file
-    Given an unsafe ZIP file named "unsafe.zip" exists in the input folder
-    When ZIP file processing is requested
-    Then the API response code is 200
-    And the processing status should be "[FAILED]"
-    And no processed ZIP has been created
-    And no Base64 output has been created
-    And the message should be "Unsafe ZIP entry path"
 

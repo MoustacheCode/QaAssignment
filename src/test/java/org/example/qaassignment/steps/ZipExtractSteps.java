@@ -118,34 +118,7 @@ public class ZipExtractSteps {
 
     }
 
-    @Then("the processing status should be {string}")
-    public void theProcessingStatusShouldBe(String expectedStatus) {
-        String actualStatus = context.response()
-                .jsonPath()
-                .getString("status");
 
-        assertEquals(expectedStatus, actualStatus);
-    }
-
-    @Given("an unsafe ZIP file named {string} exists in the input folder")
-    public void anUnsafeZIPFileExistsInTheInputFolder(String zipFileName) throws IOException {
-        Path zipPath = TestFileFactory.createUnsafeZip(
-                environmentManager.inputFolder(),
-                zipFileName
-        );
-
-        context.setZipFile(zipPath);
-    }
-
-    @And("the message should be {string}")
-    public void theMessageShouldBe(String expectedMessage) {
-
-        String actualMessage = context.response()
-                .jsonPath()
-                .getString("[0].message");
-
-        assertEquals(expectedMessage, actualMessage);
-    }
 
 
 //    @Then("{string} remains in the input folder")

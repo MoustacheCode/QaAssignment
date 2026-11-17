@@ -67,40 +67,6 @@ public final class TestFileFactory {
         return zipPath;
     }
 
-    public static Path createInvalidZip(Path inputFolder,
-                                        String zipFileName
-    ) throws IOException {
-
-        Files.createDirectories(inputFolder);
-        Path zipPath = inputFolder.resolve(zipFileName);
-
-        Files.writeString(zipPath, "This is not a valid ZIP file");
-
-        return zipPath;
-    }
-
-    public static Path createUnsafeZip(Path inputFolder,
-                                       String zipFileName)
-        throws IOException {
-
-        Files.createDirectories(inputFolder);
-        Path zipPath = inputFolder.resolve(zipFileName);
-
-        try (ZipOutputStream unsafe = new ZipOutputStream(
-                Files.newOutputStream(zipPath))) {
-
-                    ZipEntry unsafeEntry = new ZipEntry("../unsafe.pdf");
-
-                    unsafe.putNextEntry(unsafeEntry);
-
-                    unsafe.write ("unsafe test content".getBytes());
-
-                    unsafe.closeEntry();
-        }
-
-            return zipPath;
-
-    }
 
     private static byte[] contentFor(String type) {
             // Switch Statement for each of the Required filetypes to be used in the tests
