@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -76,6 +77,27 @@ public final class TestFileFactory {
         Files.writeString(zipPath, "This is not a valid ZIP file");
 
         return zipPath;
+    }
+
+    public static Path createUnsafeZip(Path inputFolder,
+                                       String zipFileName)
+        throws IOException {
+
+        Files.createDirectories(inputFolder);
+        Path zipPath = inputFolder.resolve(zipFileName);
+
+        try (ZipOutputStream unsafe = new ZipOutputStream(
+                Files.newOutputStream(zipPath))) {
+
+                    ZipEntry unsafeEntry = new ZipEntry("../unsafe.pdf");
+
+                    unsafe.putNextEntry(unsafeEntry);
+
+                    unsafe.closeEntry();
+        }
+
+            return zipPath;
+
     }
 
     private static byte[] contentFor(String type) {
