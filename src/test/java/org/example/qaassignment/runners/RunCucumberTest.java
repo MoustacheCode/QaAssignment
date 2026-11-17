@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 })
 
 // Added for individual feature tests using tags
-//@ConfigurationParameter(key = Constants.FILTER_TAGS_PROPERTY_NAME, value = "@debug")
+//@ConfigurationParameter(key = Constants.FILTER_TAGS_PROPERTY_NAME, value = "@positive")
 
 public class RunCucumberTest {
 

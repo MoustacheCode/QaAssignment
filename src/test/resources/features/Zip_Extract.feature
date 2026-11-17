@@ -148,6 +148,24 @@ Feature: ZIP file processing
   Scenario: Reject an empty ZIP file
     Given an empty ZIP file named "emptyFile.zip" is created
     When ZIP file processing is requested
-    Then the API response code is 500
+    Then the API response code is 400
     And no processed ZIP has been created
     And no Base64 output has been created
+
+  @negative @api
+  Scenario: Reject an invalid ZIP file
+    Given an invalid ZIP file named "invalid.zip" exists in the input folder
+    When ZIP file processing is requested
+    Then the API response code is 200
+    And the processing status should be "[FAILED]"
+    And no processed ZIP has been created
+    And no Base64 output has been created
+
+  @negative @api
+  Scenario: Reject an unsafe ZIP file
+    Given an unsafe ZIP file exists in the input folder
+    When ZIP file processing is requested
+    Then the API response code is 400
+    And no processed ZIP has been created
+    And no Base64 output has been created
+

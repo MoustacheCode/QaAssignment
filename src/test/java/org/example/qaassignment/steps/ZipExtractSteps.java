@@ -1,6 +1,7 @@
 package org.example.qaassignment.steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.example.qaassignment.utils.FileUtils.emptyFolder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ZipExtractSteps {
@@ -37,7 +39,7 @@ public class ZipExtractSteps {
         // Make sure all folders required for ZIP processing exist before the scenario starts
         assertTrue(Files.exists(environmentManager.inputFolder()), "The Input folder doesn't exist");
         assertTrue(Files.exists(environmentManager.processFolder()), "The Process folder doesn't exist");
-        assertTrue(Files.exists(environmentManager.encodedFolder()), "The Encroded folder doesn't exist");
+        assertTrue(Files.exists(environmentManager.encodedFolder()), "The Encoded folder doesn't exist");
         assertTrue(Files.exists(environmentManager.errorFolder()), "The Error folder doesn't exist");
     }
 
@@ -103,6 +105,26 @@ public class ZipExtractSteps {
         context.setResponse(response);
     }
 
+    @Given("an invalid ZIP file named {string} exists in the input folder")
+    public void anInvalidZIPFileNamedExistsInTheInputFolder(String zipFileName) throws IOException {
+        Path zipPath = TestFileFactory.createInvalidZip(
+                environmentManager.inputFolder(),
+                zipFileName
+        );
+
+        context.setZipFile(zipPath);
+
+
+    }
+
+    @Then("the processing status should be {string}")
+    public void theProcessingStatusShouldBe(String expectedStatus) {
+        String actualStatus = context.response()
+                .jsonPath()
+                .getString("status");
+
+        assertEquals(expectedStatus, actualStatus);
+    }
 
 
 //    @Then("{string} remains in the input folder")

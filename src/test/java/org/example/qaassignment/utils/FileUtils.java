@@ -15,7 +15,8 @@ public final class FileUtils {
         if (!Files.exists(folder)) {
             return;
         }
-        // Get everything currently inside the folder
+        // Get everything currently inside the folder, converts to stream of paths and then lists,
+        // so the for loop can iterate through them
         try (var files = Files.list(folder)) {
             // Delete each leftover test file but leave the folder itself in place
             for (Path file : files.toList()) {

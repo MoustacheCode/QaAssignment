@@ -17,6 +17,7 @@ public final class TestFileFactory {
     public record ArchiveEntry(String fileName, String type) {
     }
 
+        // Creates a ZIP folder for each of the Tests to be ran against
     public static Path createZip(
             Path inputFolder,
             String zipFileName,
@@ -47,6 +48,7 @@ public final class TestFileFactory {
         return zipPath;
     }
 
+        // Creates Empty ZIP for the Empty ZIP file test
     public static Path createEmptyZip(
             Path inputFolder,
             String zipFileName
@@ -64,8 +66,20 @@ public final class TestFileFactory {
         return zipPath;
     }
 
-    private static byte[] contentFor(String type) {
+    public static Path createInvalidZip(Path inputFolder,
+                                        String zipFileName
+    ) throws IOException {
 
+        Files.createDirectories(inputFolder);
+        Path zipPath = inputFolder.resolve(zipFileName);
+
+        Files.writeString(zipPath, "This is not a valid ZIP file");
+
+        return zipPath;
+    }
+
+    private static byte[] contentFor(String type) {
+            // Switch Statement for each of the Required filetypes to be used in the tests
         return switch (type.toUpperCase(Locale.ROOT)) {
 
             case "PDF" -> "%PDF-1.4\n% test PDF\n%%EOF"
