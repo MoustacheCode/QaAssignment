@@ -2,6 +2,7 @@ package org.example.qaassignment.steps;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.PendingException;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -124,6 +125,26 @@ public class ZipExtractSteps {
                 .getString("status");
 
         assertEquals(expectedStatus, actualStatus);
+    }
+
+    @Given("an unsafe ZIP file named {string} exists in the input folder")
+    public void anUnsafeZIPFileExistsInTheInputFolder(String zipFileName) throws IOException {
+        Path zipPath = TestFileFactory.createUnsafeZip(
+                environmentManager.inputFolder(),
+                zipFileName
+        );
+
+        context.setZipFile(zipPath);
+    }
+
+    @And("the message should be {string}")
+    public void theMessageShouldBe(String expectedMessage) {
+
+        String actualMessage = context.response()
+                .jsonPath()
+                .getString("[0].message");
+
+        assertEquals(expectedMessage, actualMessage);
     }
 
 

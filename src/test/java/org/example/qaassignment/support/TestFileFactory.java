@@ -93,6 +93,8 @@ public final class TestFileFactory {
 
                     unsafe.putNextEntry(unsafeEntry);
 
+                    unsafe.write ("unsafe test content".getBytes());
+
                     unsafe.closeEntry();
         }
 
