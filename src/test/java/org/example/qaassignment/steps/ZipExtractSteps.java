@@ -106,17 +106,7 @@ public class ZipExtractSteps {
         context.setResponse(response);
     }
 
-    @Given("an invalid ZIP file named {string} exists in the input folder")
-    public void anInvalidZIPFileNamedExistsInTheInputFolder(String zipFileName) throws IOException {
-        Path zipPath = TestFileFactory.createInvalidZip(
-                environmentManager.inputFolder(),
-                zipFileName
-        );
 
-        context.setZipFile(zipPath);
-
-
-    }
 
 
 
