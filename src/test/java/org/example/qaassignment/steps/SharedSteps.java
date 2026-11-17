@@ -35,7 +35,7 @@ public class SharedSteps {
         // Read the 'Status' value from the JSON response body
         String actualStatus = context.response()
                 .jsonPath()
-                .getString("status");
+                .getString("[0].status");
 
         // Check the status returned by the API matches
         // the status expected in the Scenario
@@ -83,7 +83,7 @@ public class SharedSteps {
         // Read the original ZIP filename returned in the API response.
         String actualSourceFile = context.response()
                 .jsonPath()
-                .getString("sourceFile");
+                .getString("[0].sourceFile");
 
         // Check that the API reports the expected source ZIP.
         assertEquals(expectedSourceFile, actualSourceFile);
@@ -95,7 +95,7 @@ public class SharedSteps {
         // Read the processed ZIP filename returned in the API response.
         String actualProcessedFile = context.response()
                 .jsonPath()
-                .getString("processedFile");
+                .getString("[0].processedFile");
 
         // Check that the API returned the expected processed filename.
         assertEquals(expectedProcessedFile, actualProcessedFile);
@@ -107,7 +107,7 @@ public class SharedSteps {
         // Read the generated Base64 filename returned in the API response.
         String actualEncodedFile = context.response()
                 .jsonPath()
-                .getString("encodedFile");
+                .getString("[0].encodedFile");
 
         // Check that the API returned the expected encoded filename.
         assertEquals(expectedEncodedFile, actualEncodedFile);
@@ -134,7 +134,7 @@ public class SharedSteps {
         // Get the processed filename reported by the API.
         String processedFileName = context.response()
                 .jsonPath()
-                .getString("processedFile");
+                .getString("[0].processedFile");
 
         // Build the physical location where that file should exist.
         Path processedFilePath = environmentManager.processFolder()
@@ -153,7 +153,7 @@ public class SharedSteps {
         // Get the encoded filename reported by the API.
         String encodedFileName = context.response()
                 .jsonPath()
-                .getString("encodedFile");
+                .getString("[0].encodedFile");
 
         // Build the physical location of the expected Base64 output.
         Path encodedFilePath = environmentManager.encodedFolder()

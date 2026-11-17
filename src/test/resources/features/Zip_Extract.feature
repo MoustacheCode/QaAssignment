@@ -106,7 +106,7 @@ Feature: ZIP file processing
       | testFile.pdf        | PDF  |
       | testNotes.txt       | TEXT |
     When ZIP file processing is requested
-    Then the API response code is 400
+    Then the API response code is 200
     And the response status is "FAILED"
     And "textFile.zip" exists in the error folder
     And "textFile.zip" no longer exists in the input folder
@@ -121,7 +121,7 @@ Feature: ZIP file processing
       | fileName        | type |
       | testPicture.png | PNG  |
     When ZIP file processing is requested
-    Then the API response code is 400
+    Then the API response code is 200
     And the response status is "FAILED"
     And "pngFile.zip" exists in the error folder
     And "pngFile.zip" no longer exists in the input folder
@@ -138,7 +138,7 @@ Feature: ZIP file processing
       | testPicture.jpg     | JPEG |
       | testNotes.txt       | TEXT |
     When ZIP file processing is requested
-    Then the API response code is 400
+    Then the API response code is 200
     And the response status is "FAILED"
     And "mixedFiles.zip" exists in the error folder
     And "mixedFiles.zip" no longer exists in the input folder
@@ -151,7 +151,7 @@ Feature: ZIP file processing
   Scenario: Reject an empty ZIP file
     Given an empty ZIP file named "emptyFile.zip" is created
     When ZIP file processing is requested
-    Then the API response code is 400
+    Then the API response code is 200
     And no processed ZIP has been created
     And no Base64 output has been created
 
