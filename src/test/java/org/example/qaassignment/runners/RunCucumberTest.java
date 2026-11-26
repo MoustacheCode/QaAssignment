@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationParameters({
         @ConfigurationParameter(key= Constants.GLUE_PROPERTY_NAME, value="org.example.qaassignment"),
         @ConfigurationParameter(key= "cucumber.snippet-type", value ="camelcase"),
-        @ConfigurationParameter(key= PLUGIN_PROPERTY_NAME, value= "pretty")
+        @ConfigurationParameter(key= PLUGIN_PROPERTY_NAME, value= "pretty, html:target/cucumber-reports/report.html, json:target/cucumber-reports/report.json")
 })
 
 // Added for individual feature tests using tags
