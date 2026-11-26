@@ -56,7 +56,7 @@ Feature: ZIP file processing
     And the response encoded file exists in the encoded folder
 
     Examples:
-    | zipFile      | fileName    | fileType  | processedFile          | encodedFile                     |
+    | zipFile      | fileName         | fileType  | processedFile          | encodedFile                |
     | pdfFile.zip  | testFile.pdf     | PDF       | pdfFile_processed.zip  | pdfFile_processed.zip.txt  |
     | jpegFile.zip | testPicture.jpeg | JPEG      | jpegFile_processed.zip | jpegFile_processed.zip.txt |
 
