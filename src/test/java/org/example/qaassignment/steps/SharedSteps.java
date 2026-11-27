@@ -62,6 +62,11 @@ public class SharedSteps {
         // Build the original location of the ZIP in input folder
         Path zipPath = environmentManager.inputFolder().resolve(zipFileName);
 
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                .pollInterval(200, TimeUnit.MILLISECONDS)
+                        .until(() -> Files.notExists(zipPath));
+
         // Check that processing removed the ZP from the folder
         assertFalse(Files.exists(zipPath),
                 "Expected ZIP to be removed from input Folder: " + zipPath
@@ -74,6 +79,10 @@ public class SharedSteps {
         // Build the location where the ZIP would appear if processing failed.
         Path zipPath = environmentManager.errorFolder().resolve(zipFileName);
 
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                .pollInterval(200, TimeUnit.MILLISECONDS)
+                        .until(() -> Files.notExists(zipPath));
         // Successful processing should not place Zp in the error folder
         assertFalse(Files.exists(zipPath),
                 "ZIP should not exist in the error folder: " + zipPath);
@@ -86,6 +95,7 @@ public class SharedSteps {
         String actualSourceFile = context.response()
                 .jsonPath()
                 .getString("sourceFile");
+
 
         // Check that the API reports the expected source ZIP.
         assertEquals(expectedSourceFile, actualSourceFile);
@@ -125,7 +135,7 @@ public class SharedSteps {
 
         await()
                 .atMost(5, TimeUnit.SECONDS)
-                        .pollInterval(5, TimeUnit.MILLISECONDS)
+                        .pollInterval(200, TimeUnit.MILLISECONDS)
                                 .until(() -> Files.exists(zipPath));
 
         // Check that the application moved the original ZIP
