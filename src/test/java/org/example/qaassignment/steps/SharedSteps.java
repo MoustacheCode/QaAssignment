@@ -7,7 +7,9 @@ import org.example.qaassignment.support.ScenarioContext;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SharedSteps {
@@ -119,6 +121,12 @@ public class SharedSteps {
         // Build the expected location of the original ZIP after processing.
         Path zipPath = environmentManager.processFolder()
                 .resolve(zipFileName);
+
+
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                        .pollInterval(5, TimeUnit.MILLISECONDS)
+                                .until(() -> Files.exists(zipPath));
 
         // Check that the application moved the original ZIP
         // from input into the processed folder.
