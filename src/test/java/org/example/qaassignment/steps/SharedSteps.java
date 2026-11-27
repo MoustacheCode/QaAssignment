@@ -51,8 +51,13 @@ public class SharedSteps {
         // Build the expected location of the rejected ZIP
         Path zipPath = environmentManager.errorFolder().resolve(zipFileName);
 
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                        .pollInterval(200, TimeUnit.MILLISECONDS)
+                                .until(() -> Files.isRegularFile(zipPath));
+
         // Check that the application moved the ZIP into the error folder
-        assertTrue(Files.exists(zipPath),
+        assertTrue(Files.isRegularFile(zipPath),
                 "Expected ZIP to exist in error folder: " + zipPath);
     }
 
@@ -79,10 +84,6 @@ public class SharedSteps {
         // Build the location where the ZIP would appear if processing failed.
         Path zipPath = environmentManager.errorFolder().resolve(zipFileName);
 
-        await()
-                .atMost(5, TimeUnit.SECONDS)
-                .pollInterval(200, TimeUnit.MILLISECONDS)
-                        .until(() -> Files.notExists(zipPath));
         // Successful processing should not place Zp in the error folder
         assertFalse(Files.exists(zipPath),
                 "ZIP should not exist in the error folder: " + zipPath);
@@ -136,12 +137,12 @@ public class SharedSteps {
         await()
                 .atMost(5, TimeUnit.SECONDS)
                         .pollInterval(200, TimeUnit.MILLISECONDS)
-                                .until(() -> Files.exists(zipPath));
+                                .until(() -> Files.isRegularFile(zipPath));
 
         // Check that the application moved the original ZIP
         // from input into the processed folder.
         assertTrue(
-                Files.exists(zipPath),
+                Files.isRegularFile(zipPath),
                 "Expected original ZIP to exist in processed folder: " + zipPath
         );
     }
@@ -158,9 +159,14 @@ public class SharedSteps {
         Path processedFilePath = environmentManager.processFolder()
                 .resolve(processedFileName);
 
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                        .pollInterval(200, TimeUnit.MILLISECONDS)
+                                .until(() -> Files.isRegularFile(processedFilePath));
+
         // Confirm that the file reported by the API really exists.
         assertTrue(
-                Files.exists(processedFilePath),
+                Files.isRegularFile(processedFilePath),
                 "Expected processed ZIP to exist: " + processedFilePath
         );
     }
@@ -177,9 +183,14 @@ public class SharedSteps {
         Path encodedFilePath = environmentManager.encodedFolder()
                 .resolve(encodedFileName);
 
+        await()
+                .atMost(5, TimeUnit.SECONDS)
+                        .pollInterval(200, TimeUnit.MILLISECONDS)
+                                .until(() -> Files.isRegularFile(encodedFilePath));
+
         // Confirm that the encoded output reported by the API actually exists.
         assertTrue(
-                Files.exists(encodedFilePath),
+                Files.isRegularFile(encodedFilePath),
                 "Expected encoded output to exist: " + encodedFilePath
         );
     }
